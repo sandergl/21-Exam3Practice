@@ -193,21 +193,25 @@ def many_hourglasses(window, square, m, colors):
     each of which denotes a color that rosegraphics understands.
     """
     center = square.center
-    cx1 = center.x
-    cy1 = center.y
-    cx2 = cx1
-    cy2 = cy1
+    cx1 = center.x + square.length_of_each_side/2
+    cy1 = center.y - square.length_of_each_side/2
+    cx2 = cx1 + square.length_of_each_side
+    cy2 = cy1 + square.length_of_each_side
     l = square.length_of_each_side
     for k in range(m):
-        rec = rg.Rectangle(rg.Point(cx1 + (2 * l * (k + 1)), cy1 + (l * (k + 1))), rg.Point(cx2 - (l * (k + 1)), cy2 - (l * (k + 1))))
+        rec = rg.Rectangle(rg.Point(cx1, cy1), rg.Point(cx2, cy2))
+        cx1 = cx1 + l
+        cy1 = cy1 + l
+        cx2 = cx2 - l
+        cy2 = cy2 - l
         rec.attach_to(window)
         window.render()
-        for i in range(k):
-            hourglass(window, k + 1, rg.Point(center.x + (l * (k + 1)), center.y), square.length_of_each_side, colors[k])
-        cx1 = cx1 + (l * (k + 1))
-        cy1 = cy1 + (l * (k + 1))
-        cx2 = cx2 + (l * (k + 1))
-        cy2 = cy2 + (l * (k + 1))
+        for i in range(k + 1):
+            hourglass(window, k+1, rg.Point(center.x + (math.sqrt(2) * l * (k)), center.y), square.length_of_each_side/2, colors[k])
+        cx1 = cx1 + l
+        cy1 = cy1 + l
+        cx2 = cx2 + l
+        cy2 = cy2 + l
 
     # ------------------------------------------------------------------
     # TODO: 3. Implement and test this function.
